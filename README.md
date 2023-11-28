@@ -32,24 +32,24 @@ siander@mit.edu<br/>
 
 1. [Thermal_dependency_curves.R](scripts/Thermal_dependency_curves.R)
     1. Contains:
-	1. Table 1. Model Parameters
-	2. Table S1. a_PCmax
-	3. Figure 1. Thermal Dependency curves for each model and PFT
-	4. Figure S2 & S3. exponential curve fits for Kremer (S2) and Anderson (S3)
-	5. Figure S4. allometrically scaled maximum growth curves
+       	 1. Table 1. Model Parameters
+       	 2. Table S1. a_PCmax
+       	 3. Figure 1. Thermal Dependency curves for each model and PFT
+       	 4. Figure S2 & S3. exponential curve fits for Kremer (S2) and Anderson (S3)
+       	 5. Figure S4. allometrically scaled maximum growth curves
     2. Requires
        	 1. Phytoplankton strain information from [derived_traits_diazogreen.csv](data/derived_traits_diazogreen.csv).
-	2. Phytoplankton growth rates from [growth_rates_diazogreen.csv](data/growth_rates_diazogreen.csv).
-	3. Parameters from Anderson et al. 2021 ([data/Anderson_etal_2021_table1.csv](data/data/Anderson_etal_2021_table1.csv)).
+       	 2. Phytoplankton growth rates from [growth_rates_diazogreen.csv](data/growth_rates_diazogreen.csv).
+       	 3. Parameters from Anderson et al. 2021 ([data/Anderson_etal_2021_table1.csv](data/data/Anderson_etal_2021_table1.csv)).
 
 2. [q10_PP.py](scripts/q10_PP.py)
     1. Contains:
-	1. Figure 4. Mean biomass for each PFT from each model
-	2. Figure S5. Difference in primary production (PP) and biomass between control simulations
-	3. Figure 2. Zonal mean biomass and PP for each model
+       	 1. Figure 4. Mean biomass for each PFT from each model
+       	 2. Figure S5. Difference in primary production (PP) and biomass between control simulations
+       	 3. Figure 2. Zonal mean biomass and PP for each model
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
 
 3. [q10_diversity.py](scripts/q10_diversity.py)
     1. Contains:
