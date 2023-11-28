@@ -17,7 +17,8 @@ siander@mit.edu<br/>
 - [figures](figures/):  figures
 
 
-## Before beginning, model output from the Darwin simulations must be obtained separately here:
+## Before beginning
+model output from the Darwin simulations must be obtained separately here:
 ## INCLUDE!!!!!!!!!!!!
 
 
@@ -53,56 +54,56 @@ siander@mit.edu<br/>
 
 3. [q10_diversity.py](scripts/q10_diversity.py)
     1. Contains:
-	1. Figure 3 A&B. Phytoplankton community evenness and richness
+       	 1. Figure 3 A&B. Phytoplankton community evenness and richness
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
 
 4. [q10_dominantPFT.py](scripts/q10_dominantPFT.py)
     1. Contains:
-	1. Figure 3 C. Global maps of the dominant PFT for each model.
+       	 1. Figure 3 C. Global maps of the dominant PFT for each model.
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
 
 5. [q10_export.py](scripts/q10_export.py)
     1. Contains:
-	1. Figure S10. Mean biovolume
-	2. Figure 5. Export processes
+       	 1. Figure S10. Mean biovolume
+       	 2. Figure 5. Export processes
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
-	3. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
+       	 3. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
 
 6. [q10_bray_curtis.py](scripts/q10_bray_curtis.py)
     1. Contains:
-	1. Figure 6. Bray-Curtis dissimilarity
-	2. Figure 7. Mean change in depth-averaged PFT biomass
-	3. Figure S6. Mean change in each PFT biomass
-	4. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
+       	 1. Figure 6. Bray-Curtis dissimilarity
+       	 2. Figure 7. Mean change in depth-averaged PFT biomass
+       	 3. Figure S6. Mean change in each PFT biomass
+       	 4. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
 
 7. [q10_warming_only.py](scripts/q10_warming_only.py)
     1. Contains:
-	1. Figure S9. Primary production temp only vs. all physics changing
-	2. Figure S11. Bray-Curtis dissimilarity
+       	 1. Figure S9. Primary production temp only vs. all physics changing
+       	 2. Figure S11. Bray-Curtis dissimilarity
     2. Requires
-       	1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-	2. HARVARD DATAVERSE
-	3. Requires PFT biomass from control simulations in [q10_bray_curtis.py](scripts/q10_bray_curtis.py)
+       	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
+       	 2. HARVARD DATAVERSE
+       	 3. Requires PFT biomass from control simulations in [q10_bray_curtis.py](scripts/q10_bray_curtis.py)
 
 8. [PHYSAT_MAREDAT.py](scripts/PHYSAT_MAREDAT.py)
     1. Contains:
-	1. Figure S7. PHYSAT
-	2. Figure S8. MAREDAT
+       	 1. Figure S7. PHYSAT
+       	 2. Figure S8. MAREDAT
     2. Requires
-       	1. PHYSAT data ([physat_monthly_mapped_degree.nc](data/physat_monthly_mapped_degree.nc)).
-	2. MAREDAT data downloaded from [PANGAEA](http://www.pangaea.de/search?&q=maredat )
+       	 1. PHYSAT data ([physat_monthly_mapped_degree.nc](data/physat_monthly_mapped_degree.nc)).
+       	 2. MAREDAT data downloaded from [PANGAEA](http://www.pangaea.de/search?&q=maredat )
 
 9. [Figure8_simulation.ipynb](scripts/Figure8_simulation.ipynb)
     1. Contains:
-	1. Figure 8
+       	 1. Figure 8
     2. Requires
-       	1. Table S3:  ([ModelParameters.csv](data/ModelParameters.csv)).
+       	 1. Table S3: ([ModelParameters.csv](data/ModelParameters.csv)).
