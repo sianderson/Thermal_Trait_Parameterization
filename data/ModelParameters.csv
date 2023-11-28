@@ -1,0 +1,13 @@
+﻿Model,Group,b,umax 20,a_PCmax,phenotype,K_N,umax 0
+SQSU (Generic Q10),Coccolithophores,0.0382,1.8269,2.3819,c5,0.11375,0.851
+SQSU (Generic Q10),Dinoflagellates,0.0382,1.8269,3.0166,c24,0.27262,0.851
+SQSU (Generic Q10),Cyanobacteria,0.0382,1.8269,2.3446,c2,0.03065,0.851
+SQSU (Generic Q10),Diatoms,0.0382,1.8269,2.3819,c15,0.11375,0.851
+SQDU (Different µmax),Dinoflagellates,0.0575,0.8195,1.3532,c24,0.12229,0.2595
+SQDU (Different µmax),Cyanobacteria,0.0575,0.9193,1.1798,c2,0.01543,0.2911
+SQDU (Different µmax),Diatoms,0.0575,2.2122,2.8842,c15,0.13773,0.7005
+SQDU (Different µmax),Coccolithophores,0.0575,1.6581,2.1618,c5,0.10324,0.525
+DQDU (Different Q10s),Coccolithophores,0.0353,1.492,1.9558,c5,0.0934,0.7408
+DQDU (Different Q10s),Dinoflagellates,0.0512,0.8057,1.3363,c24,0.12076,0.2905
+DQDU (Different Q10s),Cyanobacteria,0.0758,0.8685,1.1098,c2,0.01451,0.1899
+DQDU (Different Q10s),Diatoms,0.0438,1.9232,2.4967,c15,0.11923,0.7977
