@@ -1,32 +1,29 @@
 # Thermal_trait_parameterization
-Code to support publication: Anderson S.I., Fronda C., Barton A.D., Clayton S., Rynearson T.A., and Dutkiewicz S. (2023). Phytoplankton thermal trait parameterization alters community structure and biogeochemical processes in a modeled ocean, Global Change Biology.
+Code to support publication: Anderson S.I., Fronda C., Barton A.D., Clayton S., Rynearson T.A., and Dutkiewicz S. (in press). Phytoplankton thermal trait parameterization alters community structure and biogeochemical processes in a modeled ocean, Global Change Biology.
 
 These scripts are provided in the interests of open science. If you have questions or find errors, please let us know.
 
 Contact:<br/>
 Stephanie I. Anderson<br/>
-Department of Earth, Atmospheric and Planetary Sciences<br/>
+Department of Earth, Atmospheric, and Planetary Sciences<br/>
 Massachusetts Institute of Technology<br/>
 siander@mit.edu<br/>
-
-
-## Directory structure
-- [data](data/): has the raw data
-- [output](output/): files output by scripts 
-- [scripts](scripts/): run using data and output, produce figures and tables
-- [figures](figures/):  figures
-
 
 ## Before beginning
 Model output from each simulation must be downloaded separately here:
 https://doi.org/10.7910/DVN/6TLL8Z
 
+## Directory structure
+- [data](data/): raw data
+- [output](output/): files output by scripts 
+- [scripts](scripts/): produce figures and tables
+- [figures](figures/):  figures
 
 ## Analysis  workflow brief overview
-- [Thermal_dependency_curves.R](scripts/Thermal_dependency_curves.R) to fit exponential curves to Phytoplankton Functional Type (PFT) growth data
-- All files beginning with ‘q10’ to assess model output from the Darwin simulations
-- [PHYSAT_MAREDAT.py](scripts/PHYSAT_MAREDAT.py) to compare with field and satellite observations
-- [Figure8_simulation.ipynb](scripts/Figure8_simulation.ipynb) for a simplified 
+- [Thermal_dependency_curves.R](scripts/Thermal_dependency_curves.R) fits exponential curves to Phytoplankton Functional Type (PFT) growth data
+- Files beginning with ‘q10’ assess model output from the Darwin simulations
+- [PHYSAT_MAREDAT.py](scripts/PHYSAT_MAREDAT.py) plots field data and satellite observations of PFTs
+- [Figure8_simulation.ipynb](scripts/Figure8_simulation.ipynb) runs a simplified growth model
 
 
 ## Script Overview
@@ -50,21 +47,21 @@ https://doi.org/10.7910/DVN/6TLL8Z
        	 3. Figure 2. Zonal mean biomass and PP for each model
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
 
 3. [q10_diversity.py](scripts/q10_diversity.py)
     1. Contains:
        	 1. Figure 3 A&B. Phytoplankton community evenness and richness
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
 
 4. [q10_dominantPFT.py](scripts/q10_dominantPFT.py)
     1. Contains:
        	 1. Figure 3 C. Global maps of the dominant PFT for each model.
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
 
 5. [q10_export.py](scripts/q10_export.py)
     1. Contains:
@@ -72,7 +69,7 @@ https://doi.org/10.7910/DVN/6TLL8Z
        	 2. Figure 5. Export processes
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
        	 3. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
 
 6. [q10_bray_curtis.py](scripts/q10_bray_curtis.py)
@@ -83,7 +80,7 @@ https://doi.org/10.7910/DVN/6TLL8Z
        	 4. PFT biomass with climate change ([biomass_SQDUall.txt](output/biomass_SQDUall.txt) and [biomass_DQDUall.txt](output/biomass_DQDUall.txt))
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
 
 7. [q10_warming_only.py](scripts/q10_warming_only.py)
     1. Contains:
@@ -91,7 +88,7 @@ https://doi.org/10.7910/DVN/6TLL8Z
        	 2. Figure S11. Bray-Curtis dissimilarity
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
-       	 2. HARVARD DATAVERSE
+       	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
        	 3. Requires PFT biomass from control simulations in [q10_bray_curtis.py](scripts/q10_bray_curtis.py)
 
 8. [PHYSAT_MAREDAT.py](scripts/PHYSAT_MAREDAT.py)
@@ -104,6 +101,6 @@ https://doi.org/10.7910/DVN/6TLL8Z
 
 9. [Figure8_simulation.ipynb](scripts/Figure8_simulation.ipynb)
     1. Contains:
-       	 1. Figure 8
+       	 1. Figure 8. Simplified growth model
     2. Requires
        	 1. Table S3: ([ModelParameters.csv](data/ModelParameters.csv)).
