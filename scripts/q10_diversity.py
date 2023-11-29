@@ -177,7 +177,7 @@ even_SQDU = H_SQDU/math.log(31)
 even_DQDU = H_DQDU/math.log(31)
 
 
-#%% Species Richness
+#%% Richness
 
 ref = {'diatoms':['TRAC43','TRAC42','TRAC41','TRAC40','TRAC39','TRAC38','TRAC37','TRAC36','TRAC35'],
        'diazotrophs':['TRAC30','TRAC31','TRAC32','TRAC33','TRAC34'],
@@ -223,7 +223,7 @@ richness_SQSU = np.sum(pft_biomass_SQSU, axis=0)
 richness_SQDU = np.sum(pft_biomass_SQDU, axis=0)
 richness_DQDU = np.sum(pft_biomass_DQDU, axis=0)
 
-#%% Richness and Evenness
+#%% Richness and Evenness zonal means
 
 # creating a 'land' mask to account for NAs in model output
 land_fname = 'Anderson_control.nc'

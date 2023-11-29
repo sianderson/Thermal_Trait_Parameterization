@@ -244,8 +244,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 # creating a 'land' mask to account for NAs in model output
-land_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
-#land_fname = 'Anderson_control.nc'
+land_fname = 'Anderson_control.nc'
 land = nc.Dataset(land_fname, 'r')
 land = land.variables['PP']
 
@@ -258,7 +257,6 @@ DQDU_braym =np.ma.masked_where((land[0] == 0), DQDU_bray)
 bray_controlm =np.ma.masked_where((land[0] == 0), bray_control)
 bray_allm =np.ma.masked_where((land[0] == 0), bray_all)
 
-# figure
 bray_med_SQDU = np.nanmean(SQDU_braym.filled(np.nan), axis=1)
 bray_std_SQDU = np.nanstd(SQDU_braym.filled(np.nan), axis=1) 
 bray_med_DQDU = np.nanmean(DQDU_braym.filled(np.nan), axis=1)

@@ -135,7 +135,7 @@ biomass_SQDU = np.nansum(pft_sum_SQDU, axis=0)
 biomass_SQSU = np.nansum(pft_sum_SQSU, axis=0)
 
 
-#%% Dominant Group (Figure 3C)
+#%% Dominant PFT (Figure 3C)
 
 from matplotlib import colors
 import cartopy.crs as ccrs
@@ -191,6 +191,7 @@ plt.tight_layout()
 #plt.savefig('figures/Figure3C.pdf', bbox_inches='tight', transparent=True)
 
 #%% Extent changes
+
 import math
 # Difference in area covered
 xg = ds.variables['XG'][:] #longitudinal coordinate at point
