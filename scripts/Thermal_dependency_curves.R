@@ -20,7 +20,6 @@ library(cowplot)
 library(bbmle)
 
 # data from Anderson et al. (2021) + Diazotrophs and Green algae from Kremer et al (2017)
-setwd("/Users/Stephanie/Desktop/MIT/Q10_variability/Code & Datasets/")
 isolates <- read.csv("data/derived_traits_diazogreen.csv") # information on isolates
 rates <- read.csv("data/growth_rates_diazogreen.csv") # growth rates
 group = list("diatoms","coccolithophores", "dinoflagellates","cyanobacteria", "greens", "diazotrophs")
