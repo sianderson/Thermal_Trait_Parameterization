@@ -42,9 +42,9 @@ https://doi.org/10.7910/DVN/6TLL8Z
 
 2. [q10_PP.py](scripts/q10_PP.py)
     1. Contains:
-       	 1. Figure 4. Mean biomass for each PFT from each model
-       	 2. Figure S5. Difference in primary production (PP) and biomass between control simulations
-       	 3. Figure 2. Zonal mean biomass and PP for each model
+       	 1. Figure 2. Zonal mean biomass and PP for each model
+       	 2. Figure 4. Mean biomass for each PFT from each model
+       	 3. Figure S5. Difference in primary production (PP) and biomass between control simulations
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
        	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
@@ -58,7 +58,8 @@ https://doi.org/10.7910/DVN/6TLL8Z
 
 4. [q10_dominantPFT.py](scripts/q10_dominantPFT.py)
     1. Contains:
-       	 1. Figure 3 C. Global maps of the dominant PFT for each model.
+       	 1. Figure 3C. Global maps of the dominant PFT for each model
+       	 2. Differences in PFT latitudinal extent
     2. Requires
        	 1. Model grid ([grid_igsm.nc](data/grid_igsm.nc)).
        	 2. Model output: https://doi.org/10.7910/DVN/6TLL8Z
