@@ -1,7 +1,7 @@
 # Thermal_trait_parameterization
 Code to support publication: Anderson S.I., Fronda C., Barton A.D., Clayton S., Rynearson T.A., and Dutkiewicz S. (in press). Phytoplankton thermal trait parameterization alters community structure and biogeochemical processes in a modeled ocean, Global Change Biology.
 
-These scripts are provided in the interests of open science. If you have questions or find errors, please let us know.
+These scripts are provided in the interest of open science. If you have questions or find errors, please let us know.
 
 Contact:<br/>
 Stephanie I. Anderson<br/>
