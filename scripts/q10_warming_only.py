@@ -4,10 +4,10 @@
 Author: Stephanie Anderson, Massachusetts Institute of Technology
 Email: siander@mit.edu
     
-This script examines community change using Bray-Curtis dissimilarity.
+This script examines community change under a warming only climate change scenario.
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Climate change simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
         Requires PFT biomass from control simulations in q10_bray_curtis.py
     
@@ -18,13 +18,11 @@ This script examines community change using Bray-Curtis dissimilarity.
 %=========================================================================
 """
 #%%
-import os 
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
 # depth calculations
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -44,33 +42,33 @@ for x in range(22):
 # In all files, SQSU = Eppley, SQDU = Kremer, DQDU = Anderson
 
 # Controls 
-SQSUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQSU_control_avg.nc'
+SQSUc_fname = 'Eppley_control.nc'
 SQSUc = nc.Dataset(SQSUc_fname, 'r')
 
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
 
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
 # Climate Change (all physics changing)
-SQSU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_SQSU_2080avg.nc'
+SQSU_2080all_fname = 'Eppley_2080.nc'
 SQSUall = nc.Dataset(SQSU_2080all_fname, 'r')
 
-SQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_SQDU_2080avg.nc'
+SQDU_2080all_fname = 'Kremer_2080.nc'
 SQDUall = nc.Dataset(SQDU_2080all_fname, 'r') 
 
-DQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_2080avg.nc'
+DQDU_2080all_fname = 'Anderson_2080.nc'
 DQDUall = nc.Dataset(DQDU_2080all_fname, 'r')
 
 # Climate Change (warming only)
-SQSU_2080temp_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQSU_2080temp_avg.nc'
+SQSU_2080temp_fname = 'Eppley_2080temp.nc'
 SQSUtemp = nc.Dataset(SQSU_2080temp_fname, 'r')
 
-SQDU_2080temp_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_2080temp_avg.nc'
+SQDU_2080temp_fname = 'Kremer_2080temp.nc'
 SQDUtemp = nc.Dataset(SQDU_2080temp_fname, 'r')
 
-DQDU_2080temp_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_2080temp_avg.nc'
+DQDU_2080temp_fname = 'Anderson_2080temp.nc'
 DQDUtemp = nc.Dataset(DQDU_2080temp_fname, 'r')
 
 # get primary production
@@ -145,7 +143,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.colors as colors
 
-c = 0.01201*3.154e+7 # (adjusting units to moles per year)
+c = 0.01201*3.154e+7 # (adjusting units)
 s = 6 # Depth (240 m)
 vmin = -40
 vmax = 40
@@ -255,7 +253,7 @@ plt.gcf().text(0.07,0.45, 'Latitude', fontsize=11, rotation=90)
 #plt.savefig('figures/FigureS9.pdf', bbox_inches='tight', transparent=True)
 
 
-#%% Average over top 260 m
+#%% Average over top 240 m
 ref = {'coccolithophores':['TRAC25','TRAC26','TRAC27','TRAC28','TRAC29'],
        'cyano':['TRAC21','TRAC22'],
        'diatoms':['TRAC43','TRAC42','TRAC41','TRAC40','TRAC39','TRAC38','TRAC37','TRAC36','TRAC35'],
@@ -308,7 +306,8 @@ for i in range(6):
     pft_biomass_DQDUt[i] = np.divide(pft_sum_DQDUt[i],biomass_DQDUt)
     
 #%% Change in community structure (PFT)
-# Requires controls from q10_bray_curtis.py
+
+## Requires controls from q10_bray_curtis.py ## 
 # (pft_biomass_DQDU & pft_biomass_SQDU)
      
 c2 = np.empty([6])
@@ -353,6 +352,7 @@ for j in range(90):
 
 
 #%% Figure S11 (Bray-Curtis: Warming ONLY)
+
 import matplotlib
 import matplotlib.colors as colors
 import cartopy.crs as ccrs

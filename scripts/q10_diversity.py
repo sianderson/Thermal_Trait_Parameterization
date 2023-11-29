@@ -7,7 +7,7 @@ Email: siander@mit.edu
 This script contains calculations for phytoplankton community evenness and richness.
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Control simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
     
     OUTPUT: 
@@ -17,13 +17,11 @@ This script contains calculations for phytoplankton community evenness and richn
 """
 
 #%%
-import os 
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
 # depth calculations
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -42,13 +40,13 @@ for x in range(22):
 #%% Depth integrated PP
 # controls
 # In all files, SQSU = Eppley, SQDU = Kremer, DQDU = Anderson
-SQSUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQSU_control_avg.nc'
+SQSUc_fname = 'Eppley_control.nc'
 SQSUc = nc.Dataset(SQSUc_fname, 'r')
 
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
 
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
 # get primary production
@@ -77,7 +75,7 @@ for x in range(22):
         PP_int_sum_SQDUc[x]=PP_int_sum_SQDUc[x-1]+PP_int_SQDUc[x]
         PP_int_sum_DQDUc[x]=PP_int_sum_DQDUc[x-1]+PP_int_DQDUc[x]
 
-#%% Average over top 260 m
+#%% Average over top 240 m
 # get primary production
 ref = {'coccolithophores':['TRAC25','TRAC26','TRAC27','TRAC28','TRAC29'],
        'cyano':['TRAC21','TRAC22'],
@@ -97,7 +95,7 @@ for key in ref: # for each PFT
     all_cell_sum2 = np.empty([len(ref[key]),90,144])
     all_cell_sum3 = np.empty([len(ref[key]),90,144])
     num2 = 0
-    for i in ref[key]: # for each cell (tracer)
+    for i in ref[key]: # for each phenotype (tracer)
         cell = SQSUc.variables[i]
         cell2 = SQDUc.variables[i]
         cell3 = DQDUc.variables[i]
@@ -107,7 +105,7 @@ for key in ref: # for each PFT
         cell_sum2 = np.empty([9,90,144])
         cell_int3 = np.empty([8,90,144])   
         cell_sum3 = np.empty([9,90,144])
-        for x in range(6): # 4 to 55m, 8 to 260m
+        for x in range(6): # 6 to to 240 m
             cell_int[x] = depth_section[x] * cell[x]
             cell_int2[x] = depth_section[x] * cell2[x]
             cell_int3[x] = depth_section[x] * cell3[x]
@@ -132,11 +130,8 @@ biomass_DQDU = np.nansum(pft_sum_DQDU, axis=0)
 biomass_SQDU = np.nansum(pft_sum_SQDU, axis=0)
 biomass_SQSU = np.nansum(pft_sum_SQSU, axis=0)
 
-#biomass_SQSU[biomass_SQSU < 0.001]=np.nan
-#biomass_SQDU[biomass_SQDU < 0.001]=np.nan
-#biomass_DQDU[biomass_DQDU < 0.001]=np.nan
 #%% Evenness
-s=5
+s=6 # depth section (240 m)
 import math
 
 ref2 = ['TRAC43','TRAC42','TRAC41','TRAC40','TRAC39','TRAC38','TRAC37','TRAC36','TRAC35',
@@ -159,7 +154,7 @@ for i in ref2:
     cell_int = np.empty([s,90,144])
     cell_int2 = np.empty([s,90,144])
     cell_int3 = np.empty([s,90,144])
-    for x in range(s): # 4 to 55 m, 8 to 260 m
+    for x in range(s): # 6 to 240 m
         cell_int[x] = depth_section[x] * cell[x]
         cell_int2[x] = depth_section[x] * cell2[x]
         cell_int3[x] = depth_section[x] * cell3[x]
@@ -201,18 +196,18 @@ for key in ref: # for each PFT
     cell_biomass2 = np.empty([len(ref[key]),90,144])
     cell_biomass3 = np.empty([len(ref[key]),90,144])
     num2 = 0
-    for i in ref[key]: # for each cell (tracer)
+    for i in ref[key]: # for each phenotype (tracer)
         cell = SQSUc.variables[i]
         cell2 = SQDUc.variables[i]
         cell3 = DQDUc.variables[i]
         cell_int = np.empty([s,90,144])
         cell_int2 = np.empty([s,90,144])
         cell_int3 = np.empty([s,90,144])
-        for x in range(s): # to 260 m
+        for x in range(s): # to 240 m
             cell_int[x] = depth_section[x] * cell[x]
             cell_int2[x] = depth_section[x] * cell2[x]
             cell_int3[x] = depth_section[x] * cell3[x]
-        cell_biomass[num2] = np.divide(np.sum(cell_int, axis=0), biomass_SQSU)*100 # to 260 m
+        cell_biomass[num2] = np.divide(np.sum(cell_int, axis=0), biomass_SQSU)*100 
         cell_biomass2[num2] = np.divide(np.sum(cell_int2, axis=0), biomass_SQDU)*100
         cell_biomass3[num2] = np.divide(np.sum(cell_int3, axis=0), biomass_DQDU)*100
         num2 = num2+1
@@ -229,14 +224,11 @@ richness_SQDU = np.sum(pft_biomass_SQDU, axis=0)
 richness_DQDU = np.sum(pft_biomass_DQDU, axis=0)
 
 #%% Richness and Evenness
-land_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+
+# creating a 'land' mask to account for NAs in model output
+land_fname = 'Anderson_control.nc'
 land = nc.Dataset(land_fname, 'r')
 land = land.variables['PP']
-
-# figure
-import matplotlib
-cmap2 = matplotlib.cm.get_cmap('viridis').copy()
-cmap2.set_bad(color = 'k', alpha = 1)
 
 even_SQSUm =np.ma.masked_where((biomass_SQSU < 0.001), even_SQSU)
 even_SQDUm =np.ma.masked_where((biomass_SQDU < 0.001), even_SQDU)
@@ -246,60 +238,6 @@ richness_SQSUm =np.ma.masked_where((biomass_SQSU < 0.001), richness_SQSU)
 richness_SQDUm =np.ma.masked_where((biomass_SQDU < 0.001), richness_SQDU)
 richness_DQDUm =np.ma.masked_where((biomass_DQDU < 0.001), richness_DQDU)
 
-gridspec = dict(hspace=-0.5,bottom=0, wspace=0.1, height_ratios=[1, 1, 1])
-fig, [(ax1, ax4),(ax2, ax5), (ax3,ax6)] = plt.subplots(3, 2, figsize=(10, 9), 
-                                                       sharey='row', sharex='col', gridspec_kw=gridspec)
-im1 = ax1.imshow(even_SQSUm, extent=(0,360,-80,80),  vmin=0, vmax=1, cmap=cmap2)
-ax1.invert_yaxis()
-ax1.set_yticks([-50,0,50])
-ax1.set_yticklabels([50,0,-50])
-ax1.set_xticks([])
-ax1.set_title('Eppley', loc='left')
-
-im2= ax2.imshow(even_SQDUm, extent=(0,360,-80,80),  vmin=0, vmax=1, cmap=cmap2)
-ax2.invert_yaxis()
-ax2.set_yticks([-50,0,50])
-ax2.set_yticklabels([50,0,-50])
-ax2.set_xticks([])
-ax2.set_title('Kremer', loc='left')
-
-im3= ax3.imshow(even_DQDUm, extent=(0,360,-80,80),  vmin=0, vmax=1, cmap=cmap2)
-ax3.invert_yaxis()
-fig.colorbar(im3,label='Pielous Evenness', shrink=0.65, 
-             orientation='horizontal',cax=fig.add_axes([0.16,0.06,0.3,0.02]))
-ax3.set_yticks([-50,0,50])
-ax3.set_xlabel('Longitude')
-ax3.set_yticklabels([50,0,-50])
-ax3.set_title('Anderson', loc='left')
-
-im4 = ax4.imshow(richness_SQSUm, extent=(0,360,-80,80),  vmin=0, vmax=31, cmap=cmap2)
-ax4.invert_yaxis()
-ax4.set_yticks([-50,0,50])
-ax4.set_yticklabels([50,0,-50])
-ax4.set_xticks([])
-ax4.set_title('Eppley', loc='left')
-
-im5= ax5.imshow(richness_SQDUm, extent=(0,360,-80,80),  vmin=0, vmax=31, cmap=cmap2)
-ax5.invert_yaxis()
-ax5.set_yticks([-50,0,50])
-ax5.set_yticklabels([50,0,-50])
-ax5.set_xticks([])
-ax5.set_title('Kremer', loc='left')
-
-im6= ax6.imshow(richness_DQDUm, extent=(0,360,-80,80),  vmin=0, vmax=31, cmap=cmap2)
-ax6.invert_yaxis()
-fig.colorbar(im6,label='Species Richness', shrink=0.65, 
-             orientation='horizontal',cax=fig.add_axes([0.56,0.06,0.3,0.02]))
-ax6.set_yticks([-50,0,50])
-ax6.set_xlabel('Longitude')
-ax6.set_yticklabels([50,0,-50])
-ax6.set_title('Anderson', loc='left')
-
-plt.tight_layout()
-fig.text(0.08,0.46, 'Latitude', va='center', rotation='vertical')
-fig.text(0.09,0.77, '(a)',fontweight='bold')
-fig.text(0.5,0.77, '(b)',fontweight='bold')
-#plt.savefig('figures/Figure3AB.pdf', bbox_inches='tight', transparent=True) ## WRONG
 
 #%% Richness/Evenness summary
 # Figure 3A & 3B

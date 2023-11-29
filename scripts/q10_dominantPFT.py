@@ -7,7 +7,7 @@ Email: siander@mit.edu
 This script examines the dominant PFT globally, and the PFT latitudinal extent differences between each model.
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Control simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
     
     OUTPUT: 
@@ -17,13 +17,11 @@ This script examines the dominant PFT globally, and the PFT latitudinal extent d
 """
 
 #%%
-import os
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
 # depth calculations
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -42,16 +40,17 @@ for x in range(22):
 #%% Depth integrated primary production (PP)
 # Controls
 # In all files, SQSU = Eppley, SQDU = Kremer, DQDU = Anderson
-SQSUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQSU_control_avg.nc'
+SQSUc_fname = 'Eppley_control.nc'
 SQSUc = nc.Dataset(SQSUc_fname, 'r')
 
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
 
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
-land_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+# creating a 'land' mask to account for NAs in model output
+land_fname = 'Anderson_control.nc'
 land = nc.Dataset(land_fname, 'r')
 
 # get primary production
@@ -100,7 +99,7 @@ for key in ref: # for each PFT
     all_cell_sum2 = np.empty([len(ref[key]),90,144])
     all_cell_sum3 = np.empty([len(ref[key]),90,144])
     num2 = 0
-    for i in ref[key]: # for each cell (tracer)
+    for i in ref[key]: # for each phenotype (tracer)
         cell = SQSUc.variables[i]
         cell2 = SQDUc.variables[i]
         cell3 = DQDUc.variables[i]
@@ -110,7 +109,7 @@ for key in ref: # for each PFT
         cell_sum2 = np.empty([9,90,144])
         cell_int3 = np.empty([8,90,144])   
         cell_sum3 = np.empty([9,90,144])
-        for x in range(6): # 3 to 55m, 8 to 260m
+        for x in range(6): # 6 to 240 m
             cell_int[x] = depth_section[x] * cell[x]
             cell_int2[x] = depth_section[x] * cell2[x]
             cell_int3[x] = depth_section[x] * cell3[x]
@@ -137,6 +136,7 @@ biomass_SQSU = np.nansum(pft_sum_SQSU, axis=0)
 
 
 #%% Dominant Group (Figure 3C)
+
 from matplotlib import colors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -183,7 +183,7 @@ ax3.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecol
 values = range(6)
 colors = [im1.cmap(im1.norm(value)) for value in values]
 
-# create a patch (proxy artist) for every color 
+# create a patch for every color 
 patches = [mpatches.Patch(color=colors[i], label=pfts[i]) for i in range(len(values))]
 plt.legend(handles=patches, bbox_to_anchor=(1.3, 1.4), loc="lower center", borderaxespad=0., ncol=1, frameon=False)
 plt.tight_layout()
@@ -217,43 +217,11 @@ for i in range(90):
 # Coccolithophores
 sqdu_bi = np.where(pft_sum_SQDU[0] > 0.001, 1, 0) 
 dqdu_bi = np.where(pft_sum_DQDU[0] > 0.001, 1, 0) 
-test = np.where((dqdu_bi - sqdu_bi) <= 0, 0, 1) 
-(test*surfacearea).sum(axis=None)/(sqdu_bi*surfacearea).sum(axis=None)
+per = np.where((dqdu_bi - sqdu_bi) <= 0, 0, 1) 
+(per*surfacearea).sum(axis=None)/(sqdu_bi*surfacearea).sum(axis=None)
 
 # Cyanobacteria
 sqdu_bi = np.where(pft_sum_SQDU[1] > 0.001, 1, 0) 
 dqdu_bi = np.where(pft_sum_DQDU[1] > 0.001, 1, 0) 
-test = np.where((sqdu_bi - dqdu_bi) <= 0, 0, 1) 
-(test*surfacearea).sum(axis=None)/(sqdu_bi*surfacearea).sum(axis=None)
-
-#%% Difference in PP (S10C)
-import matplotlib
-import matplotlib.colors as colors
-# controls from q10_cc_model_comparison
-PP_SQSU_ctemp = np.subtract(PP_int_sum_DQDUc[21], PP_int_sum_SQDUc[21])
-# PP_SQSU_ctemp = np.subtract(pft_sum_DQDU[5], pft_sum_SQDU[5])
-PP_SQSU_ctemp_land = np.ma.masked_where(land[0] == 0, PP_SQSU_ctemp)
-
-#pp_med_SQSU_ctemp = np.nanmean(PP_SQSU_ctemp[0,4], axis=1)
-#pp_std_SQSU_ctemp = np.nanstd(PP_SQSU_ctemp[0,4], axis=1) 
-
-
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import matplotlib
-import matplotlib.colors as colors
-
-PP_SQSU_ctemp = (PP_int_sum_DQDUc[21] -  PP_int_sum_SQDUc[21])/PP_int_sum_SQDUc[21]*100
-
-cmap2 = matplotlib.cm.get_cmap('RdBu_r').copy()
-cmap2.set_bad(color = 'white', alpha = 1)
-fig, (ax1) = plt.subplots(1, 1, figsize=(7, 7),
-                                    subplot_kw={'projection': ccrs.Robinson(central_longitude=180)})
-im2 = ax1.imshow(PP_SQSU_ctemp, extent=(0,360,-90,90), vmin=-30, vmax=30, origin='lower', cmap=cmap2, transform=ccrs.PlateCarree())
-ax1.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecolor='k'))
-fig.colorbar(im2, label= 'PP \n(%)',ax=ax1, orientation='vertical', shrink=0.4, pad=0.02)
-#plt.savefig('/Users/Stephanie/Desktop/MIT/Q10_variability/Figures/Model_Corrections/model_diff_PP_1860.pdf', bbox_inches='tight', transparent=True)
-
-#plt.savefig('/home/siander/Q10_model_comparison/model_diff_PPabs3.pdf', bbox_inches='tight', transparent=True)
-#plt.savefig('/Users/Stephanie/Desktop/MIT/Q10_variability/Figures/Model_Corrections/model_diff_PPice.pdf', bbox_inches='tight', transparent=True)
-
+per = np.where((sqdu_bi - dqdu_bi) <= 0, 0, 1) 
+(per*surfacearea).sum(axis=None)/(sqdu_bi*surfacearea).sum(axis=None)

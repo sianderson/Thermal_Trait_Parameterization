@@ -7,7 +7,7 @@ Email: siander@mit.edu
 This script examines primary production (PP) and biomass in the model runs. 
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Control simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
     
     OUTPUT: 
@@ -19,13 +19,11 @@ This script examines primary production (PP) and biomass in the model runs.
 """
     
 #%%
-import os
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
 # depth calculations
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -44,13 +42,13 @@ for x in range(22):
 #%% Depth integrated PP
 # Controls
 # In all files, SQSU = Eppley, SQDU = Kremer, DQDU = Anderson
-SQSUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQSU_control_avg.nc'
+SQSUc_fname = 'Eppley_control.nc'
 SQSUc = nc.Dataset(SQSUc_fname, 'r')
 
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
 
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
 # get primary production
@@ -119,7 +117,7 @@ for key in ref: # for each PFT
     all_cell_sum2 = np.empty([len(ref[key]),90,144])
     all_cell_sum3 = np.empty([len(ref[key]),90,144])
     num2 = 0
-    for i in ref[key]: # for each cell (tracer)
+    for i in ref[key]: # for each phenotype (tracer)
         cell = SQSUc.variables[i] # mmol C /m3
         cell2 = SQDUc.variables[i]
         cell3 = DQDUc.variables[i]
@@ -130,7 +128,7 @@ for key in ref: # for each PFT
         cell_int3 = np.empty([8,90,144])   
         cell_sum3 = np.empty([9,90,144])
         for x in range(6): # 6 = 240 m
-            cell_int[x] = depth_section[x] * cell[x] # mmol C /m2 (multiplied by m)
+            cell_int[x] = depth_section[x] * cell[x] 
             cell_int2[x] = depth_section[x] * cell2[x]
             cell_int3[x] = depth_section[x] * cell3[x]
             if x<1:
@@ -385,6 +383,7 @@ plt.gcf().text(0.84,0.91, '(d) ', fontsize=14, weight='bold')
 
 
 #%% Differences in biomass and PP (Figure S5)
+
 biomass_SQSU_SQDU = np.divide(np.subtract(biomass_SQDU, biomass_SQSU),
                                biomass_SQSU)*100
 
@@ -406,14 +405,14 @@ im1 = ax1.imshow(biomass_SQSU_SQDU, extent=(0,360,-90,90), cmap=cmap2, vmin=-50,
 ax1.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecolor='k'))
 ax1.set_yticks([-50,0,50])
 ax1.set_yticklabels([50,0,-50])
-ax1.set_title('($C_{Kremer}$ - $C_{Eppley}$)/$C_{Eppley}$', loc='left')
+ax1.set_title(r'$\bf{(a)}$'+'($C_{Kremer}$ - $C_{Eppley}$)/$C_{Eppley}$', loc='left')
 
 ax2 = plt.subplot(3,2,3,projection=ccrs.PlateCarree(central_longitude=180, globe=None))
 im2 = ax2.imshow(biomass_SQSU_DQDU, extent=(0,360,-90,90), cmap=cmap2, vmin=-50, vmax=50, origin='lower', transform=ccrs.PlateCarree())
 ax2.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecolor='k'))
 ax2.set_yticks([-50,0,50])
 ax2.set_yticklabels([50,0,-50])
-ax2.set_title('($C_{Anderson}$ - $C_{Eppley}$)/$C_{Eppley}$', loc='left')
+ax2.set_title(r'$\bf{(c)}$'+'($C_{Anderson}$ - $C_{Eppley}$)/$C_{Eppley}$', loc='left')
 
 ax3 = plt.subplot(3,2,5,projection=ccrs.PlateCarree(central_longitude=180, globe=None))
 im3 = ax3.imshow(biomass_SQDU_DQDU, extent=(0,360,-90,90), cmap=cmap2, vmin=-50, vmax=50, origin='lower', transform=ccrs.PlateCarree())
@@ -423,17 +422,17 @@ ax3.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecol
 ax3.set_yticks([-50,0,50])
 ax3.set_xlabel('Longitude')
 ax3.set_yticklabels([50,0,-50])
-ax3.set_title('($C_{Anderson}$ - $C_{Kremer}$)/$C_{Kremer}$', loc='left')
+ax3.set_title(r'$\bf{(e)}$'+'($C_{Anderson}$ - $C_{Kremer}$)/$C_{Kremer}$', loc='left')
 
 ax4 = plt.subplot(3,2,2,projection=ccrs.PlateCarree(central_longitude=180, globe=None))
 im4 = ax4.imshow(PP_SQSUc_SQDUc, extent=(0,360,-90,90), cmap=cmap2, vmin=-50, vmax=50, origin='lower', transform=ccrs.PlateCarree())
 ax4.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecolor='k'))
-ax4.set_title('($PP_{Kremer}$ - $PP_{Eppley}$)/$PP_{Eppley}$', loc='left')
+ax4.set_title(r'$\bf{(b)}$'+'($PP_{Kremer}$ - $PP_{Eppley}$)/$PP_{Eppley}$', loc='left')
 
 ax5 = plt.subplot(3,2,4,projection=ccrs.PlateCarree(central_longitude=180, globe=None))
 im5 = ax5.imshow(PP_SQSUc_DQDUc, extent=(0,360,-90,90), cmap=cmap2, vmin=-50, vmax=50, origin='lower', transform=ccrs.PlateCarree())
 ax5.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecolor='k'))
-ax5.set_title('($PP_{Anderson}$ - $PP_{Eppley}$)/$PP_{Eppley}$', loc='left')
+ax5.set_title(r'$\bf{(d)}$'+'($PP_{Anderson}$ - $PP_{Eppley}$)/$PP_{Eppley}$', loc='left')
 
 ax6 = plt.subplot(3,2,6,projection=ccrs.PlateCarree(central_longitude=180, globe=None))
 im6 = ax6.imshow(PP_SQDUc_DQDUc, extent=(0,360,-90,90), cmap=cmap2, vmin=-50, vmax=50, origin='lower', transform=ccrs.PlateCarree())
@@ -441,18 +440,16 @@ ax6.add_feature(cfeature.NaturalEarthFeature('physical', 'land', '110m', facecol
 fig.colorbar(im6,label='PP Variation (%)', shrink=0.65, 
              orientation='horizontal', norm=colors.CenteredNorm(),cax=fig.add_axes([0.56,0.08,0.3,0.02]))
 ax6.set_xlabel('Longitude')
-ax6.set_title('($PP_{Anderson}$ - $PP_{Kremer}$)/$PP_{Kremer}$', loc='left')
+ax6.set_title(r'$\bf{(f)}$'+'($PP_{Anderson}$ - $PP_{Kremer}$)/$PP_{Kremer}$', loc='left')
 
 fig.text(0.07,0.44, 'Latitude', va='center', rotation='vertical')
-fig.text(0.09,0.87, '(a)',fontweight='bold')
-fig.text(0.5,0.87, '(b)',fontweight='bold')
 
 #plt.savefig('figures/FigureS5.pdf', bbox_inches='tight', transparent=True)
 
 #%% Figure 2: Depth-Integrated biomass and primary production
 # figure
 conversion = 0.01201
-bio_med_SQSU = np.nanmean(biomass_SQSU * conversion, axis=1) # units in mmol C / m2 ... 1000 mmol/1 mol * 1 mol/12.01g * 1g/1000mg
+bio_med_SQSU = np.nanmean(biomass_SQSU * conversion, axis=1) # units in mmol C / m2 * 1000 mmol/1 mol * 1 mol/12.01g * 1g/1000mg
 bio_med_SQSU = bio_med_SQSU[11:87]
 bio_std_SQSU = np.nanstd(biomass_SQSU * conversion, axis=1) 
 bio_std_SQSU = bio_std_SQSU[11:87]
@@ -465,7 +462,6 @@ bio_med_DQDU = bio_med_DQDU[11:87]
 bio_std_DQDU = np.nanstd(biomass_DQDU * conversion, axis=1)
 bio_std_DQDU = bio_std_DQDU[11:87]
 
-# g C/m3/y
 pp_med_SQSU = np.nanmean(PP_int_sum_SQSUc[8] * conversion * 3.154e+7, axis=1) # units in mmol C / m2 / s * 3.154e+7 seconds in a yr
 pp_med_SQSU = pp_med_SQSU[11:87]
 pp_std_SQSU = np.nanstd(PP_int_sum_SQSUc[8] * conversion * 3.154e+7, axis=1)
@@ -506,7 +502,7 @@ leg = ax2.legend(handles = [line1,line2,line3],bbox_to_anchor=(.8, 0.77), loc="l
 for line in leg.get_lines():
     line.set_linewidth(3.0)
 ax2.set_xlabel('Primary Production (mg C $m^{-2}$ $y^{-1}$)', fontsize=11)
-fig.text(0.09,0.89, '(a)',fontweight='bold', fontsize=12)
-fig.text(0.51,0.89, '(b)',fontweight='bold', fontsize=12)
+fig.text(0.135,0.82, '(a)',fontweight='bold', fontsize=12)
+fig.text(0.545,0.82, '(b)',fontweight='bold', fontsize=12)
 
 #plt.savefig('figures/Figure2.pdf', bbox_inches='tight', transparent=True)

@@ -7,7 +7,7 @@ Email: siander@mit.edu
 This script examines estimates of export processes from each model simulation.
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Climate change simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
         PFT Biomass with climate change (biomass_SQDUall.txt and biomass_DQDUall.txt)
     
@@ -18,13 +18,11 @@ This script examines estimates of export processes from each model simulation.
 %=========================================================================
 """
 #%% 
-import os 
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
 # depth calculations
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -44,17 +42,17 @@ for x in range(22):
 # In all files, SQSU = Eppley, SQDU = Kremer, DQDU = Anderson
 
 # Climate change runs
-SQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_SQDU_2080avg.nc'
+SQDU_2080all_fname = 'Kremer_2080.nc'
 SQDUall = nc.Dataset(SQDU_2080all_fname, 'r') 
 
-DQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_2080avg.nc'
+DQDU_2080all_fname = 'Anderson_2080.nc'
 DQDUall = nc.Dataset(DQDU_2080all_fname, 'r')
 
 # Controls
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
 
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
 # Particulate Organic Carbon (Export Production)
@@ -80,7 +78,7 @@ PIC_SQDUc = SQDUc.variables['TRAC17']
 PIC_DQDUc = DQDUc.variables['TRAC17']
 
 # Multiplying the particulate at 115m by the sinking rate
-# Sinking rate is outlined in https://darwin3.readthedocs.io/
+# Sinking rates are outlined in https://darwin3.readthedocs.io/
 POC_sink_krem = POC_SQDUall[4] * 1.157407407407407E-004
 POC_sink_and = POC_DQDUall[4] * 1.157407407407407E-004
 
@@ -155,7 +153,7 @@ for i in ref2:
 cell_biomass2_all[cell_biomass2_all < 0.001]=np.nan
 cell_biomass3_all[cell_biomass3_all < 0.001]=np.nan
 
-#%% 
+#%% Biovolume (Figure S10)
 import matplotlib
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -174,7 +172,6 @@ for j in range(90):
         DQDU_vol[j,k] = np.nansum(c3)/31
 
 vol_diff = (DQDU_vol-SQDU_vol)/SQDU_vol*100
-#vol_diff = DQDU_vol-SQDU_vol
 
 cmap2 = matplotlib.cm.get_cmap('viridis').copy()
 cmap2.set_bad(color = '#440154FF', alpha = 1)
@@ -203,7 +200,7 @@ plt.gcf().text(0.47,0.45, 'Anderson', fontsize=12, weight='bold', rotation=90)
 #plt.savefig('figures/FigureS10.pdf', bbox_inches='tight', transparent=True)
 
 
-#%% Change in Export Production (Figure 6)
+#%% Change in Export Production (Figure 5)
 
 Si_a = (Si_sink_and - Sic_sink_and)
 Si_k = (Si_sink_krem - Sic_sink_krem)
@@ -263,10 +260,22 @@ fig.colorbar(im9, label= 'PIC \n(mg C $m^{-3}$)',ax=ax9, orientation='vertical',
 line=plt.Line2D((0.365,0.365),(0.15,0.9), color='grey', linestyle='dashed')
 fig.add_artist(line)
 
-plt.gcf().text(0.2,0.9, '(a) 1860', fontsize=14, weight='bold')
+plt.gcf().text(0.12,0.83, '(a)', fontsize=12, weight='bold')
+plt.gcf().text(0.37,0.83, '(b)', fontsize=12, weight='bold')
+plt.gcf().text(0.62,0.83, '(c)', fontsize=12, weight='bold')
+
+plt.gcf().text(0.12,0.59, '(d)', fontsize=12, weight='bold')
+plt.gcf().text(0.37,0.59, '(e)', fontsize=12, weight='bold')
+plt.gcf().text(0.62,0.59, '(f)', fontsize=12, weight='bold')
+
+plt.gcf().text(0.12,0.35, '(g)', fontsize=12, weight='bold')
+plt.gcf().text(0.37,0.35, '(h)', fontsize=12, weight='bold')
+plt.gcf().text(0.62,0.35, '(i)', fontsize=12, weight='bold')
+
+plt.gcf().text(0.22,0.9, '1860', fontsize=14, weight='bold')
 plt.gcf().text(0.18,0.87, '(Anderson-Kremer)', fontsize=12)
-plt.gcf().text(0.43,0.9, '(b) $\Delta$ Kremer', fontsize=14, weight='bold')
+plt.gcf().text(0.45,0.9, '$\Delta$ Kremer', fontsize=14, weight='bold')
 plt.gcf().text(0.45,0.87, '(2100-1860)', fontsize=12)
-plt.gcf().text(0.66,0.9, '(c) $\Delta$ Anderson', fontsize=14, weight='bold')
+plt.gcf().text(0.68,0.9, '$\Delta$ Anderson', fontsize=14, weight='bold')
 plt.gcf().text(0.69,0.87, '(2100-1860)', fontsize=12)
 #plt.savefig('figures/Figure5.pdf', bbox_inches='tight', transparent=True)

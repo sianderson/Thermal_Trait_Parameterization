@@ -4,11 +4,10 @@
 Author: Stephanie Anderson, Massachusetts Institute of Technology
 Email: siander@mit.edu
     
-This script examines a warming only climate change scenario 
-(nutrients, circulation etc. are held constant)
+This script examines field data from MAREDAT and satellite data from PHYSAT.
 
     INPUT: 
-        PHYSAT data (physat_monthly_mapped_degree.nc)
+        PHYSAT data (physat_monthly_mapped_degree.nc; Alvain et al. (2008) https://doi.org/10.1029/2007GB003154)
         MAREDAT data downloaded from http://www.pangaea.de/search?&q=maredat 
     
     OUTPUT: 
@@ -19,7 +18,6 @@ This script examines a warming only climate change scenario
 """
 
 #%% PHYSAT
-import os 
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
@@ -30,14 +28,13 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 ##### PHYSAT PFTs 
-# Nano: 1
-# Prochl: 2
+# Nanoeukaryotes: 1
+# Prochlorococcus: 2
 # SLC: 3 (synechecoccus)
 # Diatoms: 4
 # Phaeocystis_like: 5
 # Coccolithophorid(underestimate): 6
 
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 pfts = (["Nanoeukaryotes", "Cyanobacteria", "Diatoms","Phaeocystis","Coccolithophores"])
 colors1=["turquoise", "#ec3a25", "#026cb1", "lightgrey","orange"]
 colors2=["white","turquoise", "#ec3a25", "#ec3a25", "#026cb1", "lightgrey", "orange"]
@@ -45,6 +42,7 @@ nodes = [0.0, 0.17, 0.34, 0.51,0.7,0.85,1.0]
 cmap1 = LinearSegmentedColormap.from_list("mycmap", list(zip(nodes,colors2)))
 cmap1.set_bad(color = 'white', alpha = 1)
 
+# These data are from Alvain et al. (2008) https://doi.org/10.1029/2007GB003154
 physat = 'data/physat_monthly_mapped_degree.nc'
 physat = nc.Dataset(physat, 'r')
 
@@ -77,15 +75,16 @@ values = range(5)
 patches = [mpatches.Patch(color=colors1[i], label=pfts[i]) for i in range(len(values))]
 plt.legend(handles=patches, bbox_to_anchor=(1.25, 0.85), loc="lower center", borderaxespad=0., ncol=1, frameon=False)
 plt.tight_layout()
+
 #plt.savefig('figures/FigureS7.pdf', bbox_inches='tight', transparent=True)
 
 #%% 
 import numpy as np
 # This data must be downloaded separately from http://www.pangaea.de/search?&q=maredat
-maredat1 = '/Volumes/SABackup/MIT_q10/MAREDAT/MarEDat20130523Coccolithophores.nc' # https://doi.org/10.1594/PANGAEA.785092
-maredat2 = '/Volumes/SABackup/MIT_q10/MAREDAT/MarEDat20120716Diatoms.nc' # https://doi.org/10.1594/PANGAEA.777384
-maredat3 = '/Volumes/SABackup/MIT_q10/MAREDAT/MarEDat20130403Diazotrophs.nc' # https://doi.org/10.1594/PANGAEA.818214
-maredat4 = '/Volumes/SABackup/MIT_q10/MAREDAT/MarEDat20111206Picophytoplankton.nc' # https://doi.org/10.1594/PANGAEA.777385
+maredat1 = 'MarEDat20130523Coccolithophores.nc' # https://doi.org/10.1594/PANGAEA.785092
+maredat2 = 'MarEDat20120716Diatoms.nc' # https://doi.org/10.1594/PANGAEA.777384
+maredat3 = 'MarEDat20130403Diazotrophs.nc' # https://doi.org/10.1594/PANGAEA.818214
+maredat4 = 'MarEDat20111206Picophytoplankton.nc' # https://doi.org/10.1594/PANGAEA.777385
 maredat1 = nc.Dataset(maredat1, 'r')
 maredat2 = nc.Dataset(maredat2, 'r')
 maredat3 = nc.Dataset(maredat3, 'r')

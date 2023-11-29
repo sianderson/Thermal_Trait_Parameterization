@@ -7,7 +7,7 @@ Email: siander@mit.edu
 This script examines community change using Bray-Curtis dissimilarity.
 
     INPUT: 
-        Control simulations which has been archived here ############
+        Control simulations which have been archived here: https://doi.org/10.7910/DVN/6TLL8Z
         grid_igsm.nc: grid used in the model
     
     OUTPUT: 
@@ -19,12 +19,10 @@ This script examines community change using Bray-Curtis dissimilarity.
 %=========================================================================
 """
 #%%
-import os 
 import numpy as np
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 
-os.chdir("/Users/Stephanie/Desktop/MIT/Q10_Variability/Code & Datasets/")
 ds = nc.Dataset('data/grid_igsm.nc', 'r') 
 depth = ds.variables['Z'][:]
 depth = depth*-1
@@ -40,15 +38,18 @@ for x in range(22):
         depth2[x] = 2*depth[x]-depth2[x-1]
         depth_section[x] = depth2[x] - depth2[x-1]
 
-
-SQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_SQDU_control_avg.nc'
+# Controls
+SQDUc_fname = 'Kremer_control.nc'
 SQDUc = nc.Dataset(SQDUc_fname, 'r')
-DQDUc_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+
+DQDUc_fname = 'Anderson_control.nc'
 DQDUc = nc.Dataset(DQDUc_fname, 'r')
 
-SQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_SQDU_2080avg.nc'
+#Climate change
+SQDU_2080all_fname = 'Kremer_2080.nc'
 SQDUall = nc.Dataset(SQDU_2080all_fname, 'r') 
-DQDU_2080all_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_2080avg.nc'
+
+DQDU_2080all_fname = 'Anderson_2080.nc'
 DQDUall = nc.Dataset(DQDU_2080all_fname, 'r')
 
 PP_SQDUc = SQDUc.variables['PP']
@@ -90,7 +91,7 @@ for x in range(22):
         PP_int_sum_SQDUall[x]=PP_int_sum_SQDUall[x-1]+PP_int_SQDUall[x]
         PP_int_sum_DQDUall[x]=PP_int_sum_DQDUall[x-1]+PP_int_DQDUall[x]
   
-#%% Average biomass over top 260 m
+#%% Average biomass over top 240 m (climate change runs)
 
 ref = {'coccolithophores':['TRAC25','TRAC26','TRAC27','TRAC28','TRAC29'],
        'cyano':['TRAC21','TRAC22'],
@@ -108,7 +109,7 @@ for key in ref: # for each PFT
     all_cell_sum2a = np.empty([len(ref[key]),90,144])
     all_cell_sum3a = np.empty([len(ref[key]),90,144])
     num2 = 0
-    for i in ref[key]: # for each cell (tracer)
+    for i in ref[key]: # for each phenotype (tracer)
         cell2a = SQDUall.variables[i]
         cell3a = DQDUall.variables[i]
         cell_int2a = np.empty([8,90,144])   
@@ -144,7 +145,7 @@ for i in range(6):
 #np.savetxt('output/biomass_DQDUall.txt', biomass_DQDUall, fmt='%.4e')
 
 
-#%% Average over top 260 m
+#%% Average over top 240 m (controls)
 ref = {'coccolithophores':['TRAC25','TRAC26','TRAC27','TRAC28','TRAC29'],
        'cyano':['TRAC21','TRAC22'],
        'diatoms':['TRAC43','TRAC42','TRAC41','TRAC40','TRAC39','TRAC38','TRAC37','TRAC36','TRAC35'],
@@ -242,7 +243,9 @@ import matplotlib.colors as colors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
+# creating a 'land' mask to account for NAs in model output
 land_fname = '/Volumes/SABackup/MIT_q10/Ensembles/run33_5_ice_control_avg.nc'
+#land_fname = 'Anderson_control.nc'
 land = nc.Dataset(land_fname, 'r')
 land = land.variables['PP']
 
@@ -532,7 +535,8 @@ left, width = .25, .5
 bottom, height = .25, .5
 right = left + width
 top = bottom + height
-groups = ['Coccolithophores', 'Cyanobacteria', 'Diatoms', 'Diazotrophs','Dinoflagellates','Green Algae']
+groups = [r'$\bf{(a)}$'+' Coccolithophores', r'$\bf{(b)}$'+' Cyanobacteria', r'$\bf{(c)}$'+' Diatoms', 
+          r'$\bf{(d)}$'+' Diazotrophs',r'$\bf{(e)}$'+' Dinoflagellates',r'$\bf{(f)}$'+' Green Algae']
 for i in range(6):
     k = k_zmean[i]
     a = a_zmean[i]
